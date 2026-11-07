@@ -1,0 +1,107 @@
+/* ONESPACE V22 — Overview restructure + mailbox status
+ * Loads last. Replaces the stacked spacing overrides from earlier versions (11/12/15/16/17/18 px gaps,
+ * flex columns that left uneven blanks) with ONE spacing scale and an aligned grid.
+ * Order on the page:
+ *   header  →  command deck  →  4 KPIs  →  [attention | next event]  →  [mail overview | daily notes]
+ *   →  task planner  →  Aries activity log
+ */
+:root{--os-gap:16px;--os-radius:18px;--os-pad:18px}
+
+/* ---------- 1. one vertical rhythm for the whole Overview ---------- */
+body #overview.page.active{display:grid!important;grid-template-columns:minmax(0,1fr);gap:var(--os-gap)!important;align-content:start}
+body #overview>*{margin:0!important;min-width:0}
+body #overview .panel{margin:0!important;border-radius:var(--os-radius)}
+
+/* header: date + one compact live-sync bar */
+body #overview>.welcome{padding:0 2px!important;min-height:0!important;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+body #overview>.welcome h1{display:none!important}
+body #overview>.welcome .date-pill{display:none!important}
+body #overview>.welcome p{margin:2px 0 0!important}
+body #overview #liveBar{display:flex!important;flex-wrap:wrap;align-items:center;gap:8px 9px!important;padding:8px 12px!important;margin:0!important;border-radius:14px!important;font-size:12px}
+body #overview #liveBar .live-sep{display:none}
+body #overview #liveBar label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+body #overview #liveBar .live-btn{white-space:nowrap}
+
+/* duplicates removed: the banner repeated the command deck and topbar "Ask Aries";
+   the deck's own KPI strip repeated the four KPI cards below it */
+body #overview>.assistant-banner{display:none!important}
+body #overview #ceoCommandDeck .ceo-metric-strip{display:none!important}
+body #overview #ceoCommandDeck{margin:0!important}
+
+/* KPI row */
+body #overview>.stats{margin:0!important;gap:var(--os-gap)!important;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* ---------- 2. main grid: cards align in rows, no ragged columns ---------- */
+body #overview .layout{display:grid!important;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr)!important;grid-auto-flow:row!important;gap:var(--os-gap)!important;align-items:stretch!important;margin:0!important}
+body #overview .leftcol,body #overview .rightcol{display:contents!important}
+body #overview .layout>.priority-mail-panel,
+body #overview .leftcol>.priority-mail-panel{grid-column:1;grid-row:1}
+body #overview .up-wrap{grid-column:2;grid-row:1}
+body #overview .overview-mail-intelligence{grid-column:1;grid-row:2}
+body #overview #dailyNotesPanel{grid-column:2;grid-row:2}
+body #overview .layout .panel{height:auto!important;min-height:0!important;width:auto!important}
+body #overview .layout .priority-mail-panel,
+body #overview .layout .overview-mail-intelligence,
+body #overview .layout .up-wrap,
+body #overview .layout #dailyNotesPanel{display:flex!important;flex-direction:column}
+body #overview .priority-mail-panel .priority-email-content{flex:1 1 auto;min-height:96px}
+body #overview .up-wrap #upcomingBig{flex:1 1 auto}
+body #overview .overview-mail-intelligence>*:last-child{margin-top:auto}
+
+
+body #overview #dailyNotesPanel .daily-note-body{flex:1 1 auto;display:flex;flex-direction:column}
+body #overview #dailyNotesPanel #dailyNoteText{flex:1 1 auto;min-height:120px;resize:none}
+
+/* empty cards: centre the message so a blank card does not look broken */
+body #overview .empty-note{display:flex;align-items:center;justify-content:center;text-align:center;min-height:84px;padding:12px;color:var(--muted);font-size:12.5px;line-height:1.55}
+
+/* ---------- 3. mailbox status footer (replaces the static "No mailbox connected") ---------- */
+body #overview .priority-email-footer{display:flex!important;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+body #overview .priority-email-footer #mailboxStatusText{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:650;color:var(--muted);min-width:0}
+body #overview .priority-email-footer #mailboxStatusText i{width:8px;height:8px;border-radius:50%;background:#9aa3b2;flex:none}
+body #overview .priority-email-footer[data-state="connected"] #mailboxStatusText i{background:#27876e;box-shadow:0 0 0 3px rgba(39,135,110,.16)}
+body #overview .priority-email-footer[data-state="error"] #mailboxStatusText i{background:#c45b56;box-shadow:0 0 0 3px rgba(196,91,86,.16)}
+body #overview .priority-email-footer[data-state="checking"] #mailboxStatusText i{background:#d39337}
+.os-mailbox-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.os-mailbox-actions .os-link{border:0;background:transparent;color:var(--accent);font:700 11.5px var(--font-ui,inherit);cursor:pointer;padding:6px 4px}
+.os-mailbox-note{flex:1 1 100%;font-size:11.5px;line-height:1.5;color:var(--muted)}
+.os-mailbox-note[data-kind="error"]{color:#b84e4e}
+.os-mailbox-note[data-kind="ok"]{color:#27876e}
+.os-connect-cta{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:10px}
+.os-connect-cta p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55;max-width:34ch}
+.os-connect-cta .softbtn{min-width:150px}
+
+/* ---------- 4. planner + log: same width as everything else, tighter cells ---------- */
+body #overview>.aries-task-calendar-panel,body #overview>.aries-activity-panel{margin:0!important}
+body #overview .aries-task-day-cell{min-height:74px}
+body #overview .aries-task-calendar-layout{gap:var(--os-gap)}
+
+/* ---------- 5. mail health-check dialog ---------- */
+.os-check-list{display:grid;gap:0;margin:14px 0 6px}
+.os-check-row{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.os-check-row:last-child{border:0}
+.os-check-row .os-ic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--surface);color:var(--muted);border:1px solid var(--line)}
+.os-check-row[data-s="ok"] .os-ic{background:rgba(39,135,110,.12);color:#27876e;border-color:rgba(39,135,110,.3)}
+.os-check-row[data-s="fail"] .os-ic{background:rgba(196,91,86,.12);color:#c45b56;border-color:rgba(196,91,86,.3)}
+.os-check-row[data-s="warn"] .os-ic{background:rgba(211,147,55,.14);color:#a87323;border-color:rgba(211,147,55,.35)}
+.os-check-row[data-s="run"] .os-ic{animation:osPulse 1s infinite}
+@keyframes osPulse{50%{opacity:.35}}
+.os-check-row strong{display:block;font-size:12.5px;color:var(--ink)}
+.os-check-row small{display:block;margin-top:3px;font-size:11.5px;line-height:1.55;color:var(--muted)}
+.os-check-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* ---------- 6. responsive ---------- */
+@media(max-width:1040px){
+  body #overview .layout{grid-template-columns:minmax(0,1fr)!important}
+  body #overview .priority-mail-panel{grid-column:1;grid-row:1}
+  body #overview .up-wrap{grid-column:1;grid-row:2}
+  body #overview .overview-mail-intelligence{grid-column:1;grid-row:3}
+  body #overview #dailyNotesPanel{grid-column:1;grid-row:4}
+  body #overview>.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  :root{--os-gap:12px}
+  body #overview>.stats{gap:10px!important}
+  body #overview #liveBar{flex-wrap:nowrap!important;overflow-x:auto;gap:6px 8px!important;scrollbar-width:none}
+  body #overview #liveBar>*{flex:none}
+}

@@ -1,0 +1,30 @@
+ONESPACE V33 BUILD VERIFICATION
+Date: 2026-11-07
+
+PASS: JavaScript syntax checks for project .js/.mjs files.
+PASS: 15 inline HTML scripts parsed.
+PASS: All local HTML script/link references exist.
+PASS: CSS brace/string balance checks.
+PASS: V32 theme/audio regression assertions.
+PASS: V32 account-isolation and source-navigation regression assertions,
+      updated for safer mailbox-scoped and unambiguous provider-ID matching.
+PASS: V33 task email-source view assertions (subject, sender, mailbox and source link).
+PASS: V33 task source persistence to existing tasks.source_mail_id field.
+PASS: V33 individual notification mark-read and mark-all-read assertions.
+PASS: V33 per-user notification read-state persistence assertions.
+PASS: Gmail-backed notification read uses existing markEmailHandled/Gmail action wrapper.
+PASS: Service worker cache generation bumped to V33 and new stylesheet precached.
+PASS: ZIP archive integrity checked after packaging.
+
+Commands run from project root:
+  node onespace-v32-static-verify.mjs
+  node onespace-v32-regression.test.mjs .
+  node onespace-v32-data-integrity.test.mjs .
+  node onespace-v33-task-notifications.test.mjs .
+
+LIMITATIONS:
+- These are static/regression checks, not live browser testing.
+- Gmail mark-read requires the deployed google-mail-action-OneSpace Edge Function
+  and suitable Gmail modify OAuth permission.
+- Task/calendar notification read state is saved per user in this browser's local
+  storage, not synchronized across devices.

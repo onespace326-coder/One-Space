@@ -1,0 +1,21 @@
+ONESPACE V32 BUILD VERIFICATION
+Date: 2026-11-07
+
+PASS: JavaScript syntax checks for all project .js/.mjs files.
+PASS: 15 inline HTML scripts parsed.
+PASS: All local HTML script/link references exist.
+PASS: CSS structural balance checks.
+PASS: V32 regression assertions for existing theme/audio functionality.
+PASS: V32 data-integrity assertions for owner/account isolation, exact source navigation,
+      auth/session deduplication, disconnected-account refresh, sign-out clearing,
+      calendar persistence, scheduled-task ownership and cache versioning.
+
+Commands run from the project root:
+  node onespace-v32-static-verify.mjs
+  node onespace-v32-regression.test.mjs .
+  node onespace-v32-data-integrity.test.mjs .
+
+LIMITATION: These are static and mocked regression checks. They do not certify the
+live Supabase database, provider OAuth, Gmail API, Google Calendar API, Drive API,
+or deployed Edge Functions. See README_V32_DATA_INTEGRITY_AUDIT.md for required
+backend and deployment steps.
